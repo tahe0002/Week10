@@ -1,0 +1,140 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 500,
+    "height": 400,
+    "title": "World Happiness",
+    "data": {
+        "url": "WHR_2023.csv"
+    },
+    "encoding": {
+        "x": {
+            "field": "gdp_per_capita",
+            "type": "quantitative",
+            "title": "GDP per Capita",
+            "axis": {"tickCount": 5},
+            "scale": {"type": "linear", "domain": [0, 2500]}
+
+        },
+        "y": {
+            "field": "social_support",
+            "type": "quantitative",
+            "axis": {"tickCount": 9},
+            "scale": {"type": "linear", "domain": [0, 1800]}
+            
+        }
+    },
+    "layer":[
+    {
+        "transform" :[
+            {"filter": "datum.gdp_per_capita > 0"}
+        ],
+        "selection": {
+            "region_highlight": {
+                "type": "multi",
+                "fields": ["region"],
+                "bind": "legend"
+            }
+        },    
+    "mark": "circle",
+    "encoding": {
+        "x": {
+            "field": "gdp_per_capita",
+            "type": "quantitative",
+            "title": "GDP per Capita",
+            "axis": {"tickCount": 5},
+            "scale": {"type": "linear", "domain": [0, 2500]}
+
+        },
+        "y": {
+            "field": "social_support",
+            "type": "quantitative",
+            "axis": {"tickCount": 9},
+            "scale": {"type": "linear", "domain": [0, 1800]}
+            
+        },
+        "color": {
+            "field": "region",
+            "type": "nominal",
+            "scale": {
+                "domain": [
+                    "South Asia",
+                    "Central and Eastern Europe",
+                    "Middle East and North Africa",
+                    "Latin America and Caribbean",
+                    "North America and ANZ",
+                    "Western Europe",
+                    "Sub-Saharan Africa",
+                    "Southeast Asia",
+                    "East Asia",
+                    "Commonwealth of Independent States",
+                    "Africa"
+                ],
+                "range": [
+                    "#a6cee3",
+                    "#b2df8a",
+                    "#1f78b4",
+                    "#33a02c",
+                    "#e31a1c",
+                    "#fdbf6f",
+                    "#6a3d9a",
+                    "#fb9a99",
+                    "#cab2d6",
+                    "#ffff99",
+                    "#ff7f00"
+                ]
+            }
+        },
+        "opacity": {
+            "condition": {"selection": "region_highlight", "value": 0.6},
+            "value": 0.2
+            },                       
+        "size": {
+            "field": "happiness",
+            "type": "quantitative",
+            "scale": {
+                "type": "threshold",
+                "domain": [1000, 2000, 3000, 4000, 5000, 6000],
+                "range": [10, 20, 40, 80, 160, 340, 680]
+                },
+                "legend": {"format": ".1s"}
+        },
+
+        "tooltip": [
+            {"field": "country", "type": "nominal"},
+            {"field": "happiness", "type": "quantitative", "format": ","},
+            {"field": "gdp_per_capita", "type": "quantitative", "format": ","},
+            {"field": "social_support", "type": "quantitative", "format": ","}
+            ]
+            
+    }
+},
+{
+    "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": -12,
+        "fontSize": 11.5,
+        "fontStyle": "italic"
+        },
+        "encoding": {
+        "text": {"field": "country", "type": "nominal"},
+        "color": {"value": "black"},
+        "opacity": {"condition": {
+            "test": "datum['country'] == 'Benin' || datum['country'] == 'Lebanon' || datum['country'] == 'Kazakhstan' || datum['country'] == 'Iceland'",
+            "value": 1
+            },
+            "value": 0
+            },
+            "tooltip": [
+                {"field": "country", "type": "nominal"},
+                {"field": "happiness", "type": "quantitative", "format": ","},
+                {"field": "gdp_per_capita", "type": "quantitative", "format": ","},
+                {"field": "social_support", "type": "quantitative", "format": ","}
+                ]
+            
+}
+}
+]
+    
+}
